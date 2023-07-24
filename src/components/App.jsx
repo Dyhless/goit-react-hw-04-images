@@ -13,13 +13,13 @@ export const App = () => {
   const [error, setError] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
 
-  loadMore = () => {
-    this.setState(prevState => ({
-      currentPage: prevState.currentPage + 1,
-    }));
+  const loadMore = () => {
+    setCurrentPage(prevState => {
+      prevState.currentPage + 1;
+    });
   };
 
-  handleSubmit = query => {
+  const handleSubmit = ({ query }) => {
     this.setState({
       searchText: query,
       images: [],
@@ -27,7 +27,7 @@ export const App = () => {
     });
   };
 
-  addImages = async () => {
+  const addImages = async () => {
     const { searchText, currentPage } = this.state;
     try {
       this.setState({ isLoading: true });
