@@ -20,7 +20,7 @@ export const App = () => {
   };
 
   const handleSubmit = ({ query }) => {
-    this.setState({
+    setSearchText({
       searchText: query,
       images: [],
       currentPage: 1,
