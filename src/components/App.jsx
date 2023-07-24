@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as API from './getImages';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
@@ -12,6 +12,14 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
+
+  useEffect(() => {
+    if (
+      prevState.searchText !== searchText ||
+      prevState.currentPage !== currentPage
+    )
+      addImages();
+  }, []);
 
   const loadMore = () => {
     setCurrentPage(prevState => {
