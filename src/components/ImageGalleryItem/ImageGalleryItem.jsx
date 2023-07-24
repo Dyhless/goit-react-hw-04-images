@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Modal from '../Modal/Modal';
 import { ImgItem, Item } from './ImageGalleryItem.styled';
 
-export const ImageGalleryItem = ({ image }) => {
+const ImageGalleryItem = ({ image }) => {
   const [showModal, setShowModal] = useState(false);
 
   const toggleModal = () => {
@@ -35,3 +35,5 @@ ImageGalleryItem.propTypes = {
     largeImageURL: PropTypes.string.isRequired,
   }).isRequired,
 };
+
+export default ImageGalleryItem;

@@ -14,12 +14,10 @@ export const App = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    if (
-      prevState.searchText !== searchText ||
-      prevState.currentPage !== currentPage
-    )
+    (prevState.searchText !== searchText ||
+      prevState.currentPage !== currentPage) &&
       addImages();
-  }, []);
+  }, [images]);
 
   const loadMore = () => {
     setCurrentPage(prevState => {
