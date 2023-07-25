@@ -5,7 +5,7 @@ import Button from './Button/Button';
 import Loader from './Loader/Loader';
 import Searchbar from './Searchbar/Searchbar';
 
-export const App = () => {
+const App = () => {
   const [searchText, setSearchText] = useState('');
   const [images, setImages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,6 +13,10 @@ export const App = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   const addImages = useCallback(async () => {
+    if (searchText.trim() === '') {
+      return;
+    }
+
     try {
       setIsLoading(true);
       const data = await API.getImages(searchText, currentPage);
@@ -64,3 +68,5 @@ export const App = () => {
     </>
   );
 };
+
+export default App;
