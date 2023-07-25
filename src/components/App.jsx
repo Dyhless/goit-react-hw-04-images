@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as API from './getImages';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
@@ -14,36 +14,29 @@ export const App = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    (prevState.searchText !== searchText ||
-      prevState.currentPage !== currentPage) &&
-      addImages();
-  }, [images]);
+    addImages();
+  }, [searchText, currentPage]);
 
   const loadMore = () => {
-    setCurrentPage(prevState => {
-      prevState.currentPage + 1;
-    });
+    setCurrentPage(prevCurrentPage => prevCurrentPage + 1);
   };
 
-  const handleSubmit = ({ query }) => {
-    setSearchText({
-      searchText: query,
-      images: [],
-      currentPage: 1,
-    });
+  const handleSubmit = query => {
+    setSearchText(query);
+    setImages([]);
+    setCurrentPage(1);
   };
 
   const addImages = async () => {
-    const { searchText, currentPage } = this.state;
     try {
-      this.setState({ isLoading: true });
+      setIsLoading(true);
       const data = await API.getImages(searchText, currentPage);
 
       if (data.hits.length === 0) {
         return alert('No such images');
       }
 
-      const imagesFormatedtoList = data.hits.map(
+      const imagesFormattedToList = data.hits.map(
         ({ id, tags, webformatURL, largeImageURL }) => ({
           id,
           tags,
@@ -52,15 +45,13 @@ export const App = () => {
         })
       );
 
-      this.setState(state => ({
-        images: [...state.images, ...imagesFormatedtoList],
-        error: '',
-        totalPages: Math.ceil(data.totalHits / 12),
-      }));
+      setImages(prevImages => [...prevImages, ...imagesFormattedToList]);
+      setError('');
+      setTotalPages(Math.ceil(data.totalHits / 12));
     } catch (error) {
-      this.setState({ error: 'Sorry, some error' });
+      setError('Sorry, some error');
     } finally {
-      this.setState({ isLoading: false });
+      setIsLoading(false);
     }
   };
 
